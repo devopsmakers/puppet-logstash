@@ -85,7 +85,10 @@
 #   Purge the config directory for any unmanaged files
 #
 # [*service_provider*]
-#   Service provider to use. By Default when a single service provider is possibe that one is selected.
+#   Service provider to use. By Default when a single service provider is possible that one is selected.
+#
+# [*service_restart*]
+#   Specify a restart command manually. If left unspecified, the service will be stopped and then started.
 #
 # [*startup_options*]
 #   Options used for running the Logstash process.
@@ -142,6 +145,7 @@ class logstash(
   $logstash_group      = $logstash::params::logstash_group,
   $configdir           = $logstash::params::configdir,
   $purge_configdir     = $logstash::params::purge_configdir,
+  $service_restart     = undef,
   $startup_options     = {},
   $manage_repo         = true,
   $repo_version        = $logstash::params::repo_version,
@@ -184,6 +188,10 @@ class logstash(
 
   if ($manage_repo == true) {
     validate_string($repo_version)
+  }
+
+  if ($service_restart != undef) {
+    validate_string($service_restart)
   }
 
   #### Manage actions

@@ -90,6 +90,7 @@ class logstash::service {
     enable     => $service_enable,
     hasstatus  => true,
     hasrestart => true,
+    restart    => $logstash::service_restart,
   }
 
   # If any files tagged as config files for the service are changed, notify

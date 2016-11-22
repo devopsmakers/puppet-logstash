@@ -217,6 +217,20 @@ describe 'logstash', :type => 'class' do
 
         end # provider init
 
+        context 'Use custom restart when service_restart is set' do
+
+          let :params do {
+            :service_restart => 'service logstash configtest && service logstash restart'
+          } end
+
+          it { should contain_service('logstash').with(
+            :ensure => nil,
+            :enable => false,
+            :restart => 'service logstash configtest && service logstash restart'
+          ) }
+
+        end
+
       end # Services
 
       context 'when setting the module to absent' do
